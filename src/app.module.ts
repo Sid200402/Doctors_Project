@@ -11,7 +11,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { PatientModule } from './patient/patient.module';
-import { PatientDocumentModule } from './patient-document/patient-document.module';
 import { MedicalHistoryModule } from './medical-history/medical-history.module';
 
 @Module({
@@ -33,7 +32,7 @@ import { MedicalHistoryModule } from './medical-history/medical-history.module';
     }),
     CacheModule.register({
       isGlobal: true,
-    }), AccountModule, PatientModule, PatientDocumentModule, MedicalHistoryModule],
+    }), AccountModule, PatientModule, MedicalHistoryModule],
   controllers: [AppController],
   providers: [AppService],
 })

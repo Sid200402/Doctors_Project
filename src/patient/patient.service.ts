@@ -20,7 +20,6 @@ export class PatientService {
     const result = await this.patientRepo
       .createQueryBuilder('patient')
       .leftJoinAndSelect('patient.account', 'account')
-      .leftJoinAndSelect('patient.documents', 'documents')
       .leftJoinAndSelect('patient.medicalHistories', 'medicalHistories')
       .select([
         'patient.id',
@@ -28,6 +27,10 @@ export class PatientService {
         'patient.age',
         'patient.gender',
         'patient.contact',
+        'patient.aadhar',
+        'patient.aadharName',
+        'patient.insurance',
+        'patient.insuranceName',
         'patient.createdAt',
         'patient.updatedAt',
 
@@ -36,11 +39,6 @@ export class PatientService {
         'account.roles',
         'account.status',
         'account.createdAt',
-
-        'documents.id',
-        'documents.name',
-        'documents.url',
-        'documents.type',
 
         'medicalHistories.id',
         'medicalHistories.type',
@@ -79,6 +77,20 @@ export class PatientService {
   }
 
   async profileImage(image: string, patient: Patient) {
+    const updated = Object.assign(patient, {
+      profile: process.env.CDN_LINK + image,
+      profileName: image,
+    });
+    return await this.patientRepo.save(updated);
+  }
+  async aadharImg(image: string, patient: Patient) {
+    const updated = Object.assign(patient, {
+      profile: process.env.CDN_LINK + image,
+      profileName: image,
+    });
+    return await this.patientRepo.save(updated);
+  }
+  async insuranceImg(image: string, patient: Patient) {
     const updated = Object.assign(patient, {
       profile: process.env.CDN_LINK + image,
       profileName: image,

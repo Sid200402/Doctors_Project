@@ -2,7 +2,6 @@ import {
 	Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany, CreateDateColumn, UpdateDateColumn
 } from 'typeorm';
 import { Account } from '../../account/entities/account.entity';
-import { PatientDocument } from '../../patient-document/entities/patient-document.entity';
 import { MedicalHistory } from '../../medical-history/entities/medical-history.entity';
 import { Gender } from '../../enum';
 
@@ -36,8 +35,17 @@ export class Patient {
 	@Column({ type: 'text', nullable: true })
 	profileName: string;
 
-	@OneToMany(() => PatientDocument, (patientDocument) => patientDocument.patient)
-	documents: PatientDocument[];
+	@Column({ type: 'text', nullable: true })
+	aadhar: string;
+
+	@Column({ type: 'text', nullable: true })
+	aadharName: string;
+
+	@Column({ type: 'text', nullable: true })
+	insurance: string;
+
+	@Column({ type: 'text', nullable: true })
+	insuranceName: string;
 
 	@OneToMany(() => MedicalHistory, (medicalHistory) => medicalHistory.patient)
 	medicalHistories: MedicalHistory[];

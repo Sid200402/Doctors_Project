@@ -8,7 +8,7 @@ import { extname } from 'path';
 
 @Controller('patient')
 export class PatientController {
-  constructor(private readonly patientService: PatientService) {}
+  constructor(private readonly patientService: PatientService) { }
 
   @Post()
   create(@Body() createPatientDto: CreatePatientDto) {
@@ -22,7 +22,7 @@ export class PatientController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdatePatientDto) {
-    return this.patientService.update( dto, id);
+    return this.patientService.update(dto, id);
   }
 
   @Put('profile')
@@ -42,6 +42,70 @@ export class PatientController {
     }),
   )
   async profileImage(
+    // @CurrentUser() user: Account,
+    @Param('id') id: string,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 1 }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    const fileData = await this.patientService.findOne(id);
+    return this.patientService.profileImage(file.path, fileData);
+  }
+
+  @Put('insurance')
+  // @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads/patint/documents',
+        filename: (req, file, callback) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          return callback(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
+  async insurance(
+    // @CurrentUser() user: Account,
+    @Param('id') id: string,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 1 }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    const fileData = await this.patientService.findOne(id);
+    return this.patientService.profileImage(file.path, fileData);
+  }
+
+  @Put('aadhar')
+  // @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads/patint/documents',
+        filename: (req, file, callback) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          return callback(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
+  async aadharImg(
     // @CurrentUser() user: Account,
     @Param('id') id: string,
     @UploadedFile(
