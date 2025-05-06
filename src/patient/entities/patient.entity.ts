@@ -4,6 +4,7 @@ import {
 import { Account } from '../../account/entities/account.entity';
 import { PatientDocument } from '../../patient-document/entities/patient-document.entity';
 import { MedicalHistory } from '../../medical-history/entities/medical-history.entity';
+import { Gender } from '../../enum';
 
 
 @Entity()
@@ -17,14 +18,14 @@ export class Patient {
 	@OneToOne(() => Account)
 	account: Account;
 
-	@Column()
+	@Column({ type: 'varchar', length: 55, nullable: true })
 	fullName: string;
 
-	@Column()
+	@Column({ type: 'varchar', length: 20, nullable: true })
 	age: number;
 
-	@Column()
-	gender: string;
+	@Column({ type: 'enum', enum: Gender, default: Gender.OTHER })
+	gender: Gender;
 
 	@Column({ type: 'varchar', length: 100, nullable: true })
 	callNumber: string;
