@@ -3,9 +3,11 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	CreateDateColumn,
-	UpdateDateColumn
+	UpdateDateColumn,
+  OneToOne
   } from 'typeorm';
 import { AIType, DefaultStatus, UserRole } from '../../enum';
+import { Patient } from '../../patient/entities/patient.entity';
 
 @Entity()
 export class Account {
@@ -38,4 +40,7 @@ export class Account {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToOne(() => Patient, patient => patient.account)
+  patient: Patient;
 }

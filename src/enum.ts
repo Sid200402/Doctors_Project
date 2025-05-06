@@ -21,4 +21,25 @@ export enum UserRole {
 	LOGIN = 'IN',
 	LOGOUT = 'OUT',
   }
-  
+
+  export enum PatientDocumentType {
+	AAdhar = 'AAdhar',
+	INSURANCE = 'Insurance',
+	REPORT = 'Report',
+	OTHER = 'Other',
+
+  }
+
+  export enum MedicalHistoryType {
+	ALLERGY = 'allergy',
+	SURGERY = 'surgery',
+	DISEASE = 'disease',
+  }
+
+  export enum PatientStatus {
+	ACTIVE = 'ACTIVE',
+	DEACTIVE = 'DEACTIVE',
+	DELETED = 'DELETED',
+	SUSPENDED = 'SUSPENDED',
+	PENDING = 'PENDING',
+  }
