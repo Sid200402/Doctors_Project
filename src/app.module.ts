@@ -20,7 +20,7 @@ import { join } from 'path';
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.BL_DB_HOST,
+      host: process.env.DB_HOST,
       port: Number(process.env.DB_PORT),
       username: process.env.USER_NAME,
       password: process.env.DB_PASS,
