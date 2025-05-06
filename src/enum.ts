@@ -49,3 +49,12 @@ export enum UserRole {
 	OTHER = 'Other',
   }
 
+  export enum PermissionAction {
+	CREATE = 'Create',
+	READ = 'Read',
+	UPDATE = 'Update',
+	DELETE = 'Delete',
+	MANAGE = "MANAGE",
+  }
+  
+

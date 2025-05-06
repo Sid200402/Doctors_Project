@@ -15,6 +15,9 @@ export class Account {
   id: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
+  email: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
   phoneNumber: string;
 
   @Column({ type: 'text', nullable: true })

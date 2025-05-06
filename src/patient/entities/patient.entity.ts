@@ -11,6 +11,9 @@ export class Patient {
 	@PrimaryGeneratedColumn('uuid')
 	id: string;
 
+	@Column({ type: 'varchar', length: 100, nullable: true })
+	email: string;
+
 	@Column({ type: 'uuid', nullable: true })
 	accountId: string;
 
