@@ -12,6 +12,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { PatientModule } from './patient/patient.module';
 import { MedicalHistoryModule } from './medical-history/medical-history.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -32,7 +33,7 @@ import { MedicalHistoryModule } from './medical-history/medical-history.module';
     }),
     CacheModule.register({
       isGlobal: true,
-    }), AccountModule, PatientModule, MedicalHistoryModule],
+    }), AccountModule, PatientModule, MedicalHistoryModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
