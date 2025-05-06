@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, UploadedFiles, FileTypeValidator } from '@nestjs/common';
 import { PatientService } from './patient.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
@@ -15,7 +15,7 @@ export class PatientController {
     return this.patientService.create(createPatientDto);
   }
 
-  @Get('profile')
+  @Get('profile/:id')
   getProfile(@Param('id') id: string) {
     return this.patientService.getProfile(id);
   }
@@ -25,7 +25,7 @@ export class PatientController {
     return this.patientService.update(dto, id);
   }
 
-  @Put('profile')
+  @Put('profileimg/:id')
   // @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UseInterceptors(
     FileInterceptor('file', {
@@ -47,6 +47,7 @@ export class PatientController {
     @UploadedFile(
       new ParseFilePipe({
         validators: [
+          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
           new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 1 }),
         ],
       }),
@@ -79,6 +80,7 @@ export class PatientController {
     @UploadedFile(
       new ParseFilePipe({
         validators: [
+          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
           new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 1 }),
         ],
       }),
@@ -111,6 +113,7 @@ export class PatientController {
     @UploadedFile(
       new ParseFilePipe({
         validators: [
+          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
           new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 1 }),
         ],
       }),

@@ -19,14 +19,13 @@ export class PatientService {
   async getProfile(accountId: string) {
     const result = await this.patientRepo
       .createQueryBuilder('patient')
-      .leftJoinAndSelect('patient.account', 'account')
       .leftJoinAndSelect('patient.medicalHistories', 'medicalHistories')
       .select([
         'patient.id',
+        'patient.accountId',
         'patient.fullName',
         'patient.age',
         'patient.gender',
-        'patient.contact',
         'patient.aadhar',
         'patient.aadharName',
         'patient.insurance',
@@ -34,18 +33,18 @@ export class PatientService {
         'patient.createdAt',
         'patient.updatedAt',
 
-        'account.id',
-        'account.phoneNumber',
-        'account.roles',
-        'account.status',
-        'account.createdAt',
+        // 'account.id',
+        // 'account.phoneNumber',
+        // 'account.roles',
+        // 'account.status',
+        // 'account.createdAt',
 
         'medicalHistories.id',
         'medicalHistories.type',
-        'medicalHistories.description',
-        'medicalHistories.date',
+        'medicalHistories.desc',
+        'medicalHistories.occurredOn',
       ])
-      .where('patient.account = :accountId', { accountId })
+      .where('patient.accountId = :accountId', { accountId })
       .getOne();
 
     if (!result) {
