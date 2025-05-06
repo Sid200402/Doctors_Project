@@ -43,3 +43,9 @@ export enum UserRole {
 	SUSPENDED = 'SUSPENDED',
 	PENDING = 'PENDING',
   }
+  export enum Gender {
+	MALE = 'Male',
+	FEMALE = 'Female',
+	OTHER = 'Other',
+  }
+
