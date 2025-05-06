@@ -21,12 +21,12 @@ import { join } from 'path';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.BL_DB_HOST,
-      port: Number(process.env.BL_DB_PORT),
-      username: process.env.BL_USER_NAME,
-      password: process.env.BL_DB_PASS,
-      database: process.env.BL_DB_NAME,
+      port: Number(process.env.DB_PORT),
+      username: process.env.USER_NAME,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: false,
+      synchronize: true,
     }),
     CacheModule.register({
       isGlobal: true,
