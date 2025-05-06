@@ -23,8 +23,9 @@ export class Patient {
 	@Column({ type: 'varchar', length: 55, nullable: true })
 	fullName: string;
 
-	@Column({ type: 'varchar', length: 20, nullable: true })
+	@Column({ type: 'int', nullable: true })
 	age: number;
+
 
 	@Column({ type: 'enum', enum: Gender, default: Gender.OTHER })
 	gender: Gender;

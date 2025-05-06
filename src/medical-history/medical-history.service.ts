@@ -1,26 +1,42 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { MedicalHistory } from './entities/medical-history.entity';
+import { Repository } from 'typeorm';
 import { CreateMedicalHistoryDto } from './dto/create-medical-history.dto';
-import { UpdateMedicalHistoryDto } from './dto/update-medical-history.dto';
+import { Patient } from '../patient/entities/patient.entity';
 
 @Injectable()
 export class MedicalHistoryService {
-  create(createMedicalHistoryDto: CreateMedicalHistoryDto) {
-    return 'This action adds a new medicalHistory';
+  constructor(
+    @InjectRepository(MedicalHistory)
+    private medicalHistoryRepo: Repository<MedicalHistory>,
+
+    @InjectRepository(Patient)
+    private patientRepo: Repository<Patient>,
+  ) { }
+
+  async create(dto: CreateMedicalHistoryDto) {
+    const patient = await this.patientRepo.findOne({ where: { id: dto.patientId } });
+    if (!patient) throw new NotFoundException('Patient not found');
+    const obj = Object.create(dto)
+    return this.medicalHistoryRepo.save(dto);
   }
 
-  findAll() {
-    return `This action returns all medicalHistory`;
+  async findOne(id: string) {
+    const result = await this.medicalHistoryRepo.findOne({
+      where: { id },
+    });
+    if (!result) {
+      throw new NotFoundException('User not found!');
+    }
+    return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} medicalHistory`;
-  }
-
-  update(id: number, updateMedicalHistoryDto: UpdateMedicalHistoryDto) {
-    return `This action updates a #${id} medicalHistory`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} medicalHistory`;
+  async file(doc: string, medHis: MedicalHistory) {
+    const updated = Object.assign(medHis, {
+      file: process.env.CDN_LINK + doc,
+      fileName: doc,
+    });
+    return await this.medicalHistoryRepo.save(updated);
   }
 }
