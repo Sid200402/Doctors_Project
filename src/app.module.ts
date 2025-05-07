@@ -10,6 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 
 import { CacheModule } from '@nestjs/cache-manager';
+import { PatientModule } from './patient/patient.module';
 
 
 
@@ -36,6 +37,8 @@ import { CacheModule } from '@nestjs/cache-manager';
     AccountModule,
    
     AuthModule,
+   
+    PatientModule,
    
   ],
   controllers: [AppController],

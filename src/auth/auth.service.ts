@@ -18,12 +18,14 @@ import { Cache } from 'cache-manager';
 import { OtpDto, SigninDto } from './dto/login.dto';
 import APIFeatures from 'src/utils/apiFeatures.utils';
 import { RegisterDto } from './dto/register.dto';
+import { Patient } from 'src/patient/entities/patient.entity';
 
 
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     @InjectRepository(Account) private readonly repo: Repository<Account>,
+    @InjectRepository(Patient) private readonly patientRepo: Repository<Patient>,
 
   
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
@@ -75,36 +77,31 @@ export class AuthService {
     return result;
   };
 
-  // async register(Dto: RegisterDto): Promise<Account> {
-  //   const existingUser = await this.repo.findOne({
-  //     where: { PhoneNumber: Dto.PhoneNumber },
-  //   });
-  //   if (existingUser) {
-  //     throw new ConflictException('User with this ph number exists');
-  //   }
-  //   const payload = this.repo.create({
-  //     PhoneNumber: Dto.PhoneNumber,
-  //     email: Dto.email,
-  //     roles: Dto.roles,
-  //     status: DefaultStatus.ACTIVE,
+  async register(Dto: RegisterDto): Promise<Account> {
+    const existingUser = await this.repo.findOne({
+      where: { phoneNumber: Dto.PhoneNumber },
+    });
+    if (existingUser) {
+      throw new ConflictException('User with this ph number exists');
+    }
+    const encryptedPassword = await bcrypt.hash(Dto.password, 10);
+    const payload = this.repo.create({
+      phoneNumber: Dto.PhoneNumber,
+      email: Dto.email,
+     password:encryptedPassword,
+      roles: Dto.roles,
+      status: DefaultStatus.ACTIVE,
       
-  //   });
-  //   const savedAccount = await this.repo.save(payload);
-  //   if (Dto.roles === UserRole.PATIENT) {
-  //     const doctorDetail = this.patientRepo.create({
-  //       email: Dto.email,
-    
-  //      accountId: savedAccount.id,
-  //     });
-  //     await this.patientRepo.save(doctorDetail);
-  //   } else if (Dto.roles === UserRole.USER) {
-  //     const UserDetail = this.userrepo.create({
-  //       email: Dto.email,
-  //       accountId: savedAccount.id,
-  //     });
-  //     await this.userrepo.save(UserDetail);
-  //   }
-  //   return savedAccount;
-  // }
+    });
+    const savedAccount = await this.repo.save(payload);
+    if (Dto.roles === UserRole.PATIENT) {
+      const patientDetail = this.patientRepo.create({
+        email: Dto.email,
+       accountId: savedAccount.id,
+      });
+      await this.patientRepo.save(patientDetail);
+    } 
+    return savedAccount;
+  }
 }
 
