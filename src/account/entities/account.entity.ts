@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { DefaultStatus, UserRole } from 'src/enum';
+import { DefaultStatus, UserRole ,AIType} from 'src/enum';
 
 @Entity()
 export class Account {
@@ -14,21 +14,32 @@ export class Account {
   id: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  PhoneNumber: string;
-
-  @Column({ type: 'varchar', length: 100, nullable: true })
   email: string;
 
- @Column({ nullable: true })
-  password: string; 
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  phoneNumber: string;
 
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+  @Column({ type: 'text', nullable: true })
+  password: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  deviceId: string;
+
+  @Column({ type: 'enum', enum: AIType, default: AIType.INACTIVE })
+  lastStatus: AIType;
+
+  @Column({ type: 'uuid', nullable: true })
+  createdBy: string;
+
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.PATIENT})
   roles: UserRole;
 
   @Column({ type: 'enum', enum: DefaultStatus, default: DefaultStatus.ACTIVE })
   status: DefaultStatus;
 
-
- @CreateDateColumn()
+  @CreateDateColumn()
   createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

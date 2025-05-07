@@ -1,5 +1,5 @@
 export enum UserRole {
-    USER = 'USER',
+    
     DOCTOR = 'DOCTOR',
     ADMIN = 'ADMIN',
     PATIENT = 'PATIENT',
@@ -16,8 +16,13 @@ export enum UserRole {
     PRIVACY_POLICY = 'PRIVACY POLICY',
     DATA_POLICY = 'DATA POLICY',
   }
-  export enum  UserGender{
+  export enum Gender{
     MALE = 'MALE',
     FEMALE="FEMALE",
     OTHER="OTHER"
+  }
+
+  export enum AIType {
+    ACTIVE = 'ACTIVE',
+    INACTIVE = 'INACTIVE',
   }
