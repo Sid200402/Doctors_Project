@@ -12,26 +12,9 @@ import { RolesGuard } from 'src/auth/guards/roles.gurad';
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
-  @Get('all')
-  @Roles(UserRole.ADMIN,)
-  async getAllAccounts(@Body() dto: PaginationDto) {
-    return this.accountService.findAllAccounts(dto);
-  }
-
-
-  @Get('doctor')
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles(UserRole.DOCTOR)
-  async getAccount(@CurrentUser()user:Account) {
-    return this.accountService.getDoctorDetails(user.id);
-  }
-  @Get('user')
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles(UserRole.USER)
-  async getuserAccount(@CurrentUser()user:Account) {
-    return this.accountService.getUserDetails(user.id);
+ 
   }
 
 
 
-}
+

@@ -10,11 +10,9 @@ import { UpdateAuthDto } from './dto/update-auth.dto';
 import { Account } from 'src/account/entities/account.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { DoctorDetail } from 'src/doctor-details/entities/doctor-detail.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { DefaultStatus, UserRole } from 'src/enum';
-import { UserDetail } from 'src/user-details/entities/user-detail.entity';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { OtpDto, SigninDto } from './dto/login.dto';
@@ -22,16 +20,16 @@ import APIFeatures from 'src/utils/apiFeatures.utils';
 import { RegisterDto } from './dto/register.dto';
 import { Patient } from 'src/patient/entities/patient.entity';
 
+
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     @InjectRepository(Account) private readonly repo: Repository<Account>,
-    @InjectRepository(DoctorDetail)
-    private readonly doctorrepo: Repository<DoctorDetail>,
-    @InjectRepository(UserDetail)
-    private readonly userrepo: Repository<UserDetail>,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
     @InjectRepository(Patient) private readonly patientRepo: Repository<Patient>,
+
+  
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  
   ) {}
 
   async verifyOtp(dto: OtpDto) {
@@ -81,33 +79,28 @@ export class AuthService {
 
   async register(Dto: RegisterDto): Promise<Account> {
     const existingUser = await this.repo.findOne({
-      where: { PhoneNumber: Dto.PhoneNumber },
+      where: { phoneNumber: Dto.PhoneNumber },
     });
     if (existingUser) {
       throw new ConflictException('User with this ph number exists');
     }
+    const encryptedPassword = await bcrypt.hash(Dto.password, 10);
     const payload = this.repo.create({
-      PhoneNumber: Dto.PhoneNumber,
+      phoneNumber: Dto.PhoneNumber,
       email: Dto.email,
+     password:encryptedPassword,
       roles: Dto.roles,
       status: DefaultStatus.ACTIVE,
       
     });
     const savedAccount = await this.repo.save(payload);
     if (Dto.roles === UserRole.PATIENT) {
-      const doctorDetail = this.patientRepo.create({
+      const patientDetail = this.patientRepo.create({
         email: Dto.email,
-    
        accountId: savedAccount.id,
       });
-      await this.patientRepo.save(doctorDetail);
-    } else if (Dto.roles === UserRole.USER) {
-      const UserDetail = this.userrepo.create({
-        email: Dto.email,
-        accountId: savedAccount.id,
-      });
-      await this.userrepo.save(UserDetail);
-    }
+      await this.patientRepo.save(patientDetail);
+    } 
     return savedAccount;
   }
 }
