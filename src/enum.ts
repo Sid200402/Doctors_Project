@@ -41,18 +41,6 @@ export enum PageType {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 export enum BloodGroup {
   A_POSITIVE = 'A+',
   A_NEGATIVE = 'A-',
