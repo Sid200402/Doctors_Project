@@ -9,9 +9,9 @@ import { Response } from 'express';
 import * as path from 'path';
 import * as fs from 'fs';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from '../auth/guards/roles.gurad';
 import { Roles } from '../auth/decorator/roles.decorator';
 import { UserRole } from '../enum';
+import { RolesGuard } from '../auth/guards/roles.guard';
 
 @Controller('patient')
 export class PatientController {
