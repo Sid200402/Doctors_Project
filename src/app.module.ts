@@ -34,7 +34,7 @@ import { MenusModule } from './menus/menus.module';
       password: process.env.DB_PASS || '',
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize:true,
+      synchronize:false
     }),
     CacheModule.register({
 

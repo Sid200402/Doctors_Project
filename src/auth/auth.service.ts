@@ -27,7 +27,6 @@ export class AuthService {
     private jwtService: JwtService,
     @InjectRepository(Account) private readonly repo: Repository<Account>,
     @InjectRepository(Patient) private readonly patientRepo: Repository<Patient>,
-
     @InjectRepository(UserPermission)
     private readonly upRepo: Repository<UserPermission>,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
