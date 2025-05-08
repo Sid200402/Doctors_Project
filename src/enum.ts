@@ -3,6 +3,7 @@ export enum UserRole {
     DOCTOR = 'DOCTOR',
     ADMIN = 'ADMIN',
     PATIENT = 'PATIENT',
+    STAFF='STAFF',
   }
   export enum DefaultStatus {
     ACTIVE = 'ACTIVE',
@@ -11,11 +12,7 @@ export enum UserRole {
     SUSPENDED = 'SUSPENDED',
     PENDING = 'PENDING',
   }
-  export enum PageType {
-    TNC = 'TERMS & CONDITIONS',
-    PRIVACY_POLICY = 'PRIVACY POLICY',
-    DATA_POLICY = 'DATA POLICY',
-  }
+ 
   export enum Gender{
     MALE = 'MALE',
     FEMALE="FEMALE",
@@ -26,3 +23,13 @@ export enum UserRole {
     ACTIVE = 'ACTIVE',
     INACTIVE = 'INACTIVE',
   }
+
+
+  export enum PermissionAction {
+    CREATE = 'Create',
+    READ = 'Read',
+    UPDATE = 'Update',
+    DELETE = 'Delete',
+    MANAGE = "MANAGE",
+  }
+  

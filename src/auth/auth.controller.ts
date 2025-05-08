@@ -25,13 +25,21 @@ export class AuthController {
   async adminlogin(@Body() dto: LoginDto) {
     return this.authService.signIn(dto);
   }
+  @Post('verify')
+  staffverifyOtp(@Body() dto: OtpDto) {    
+    return this.authService.staffverifyOtp(dto);
+  }
+  @Post('staff/login')
+  async stafflogin(@Body() dto: LoginDto) {
+    return this.authService.staffLogIn(dto);
+  }
 
 
  
-  // @Post('register')
-  // async register(@Body() registerDto: RegisterDto) {
-  //   return this.authService.register(registerDto);
-  // }
+  @Post('register')
+  async register(@Body() registerDto: RegisterDto) {
+    return this.authService.register(registerDto);
+  }
 
 
 
