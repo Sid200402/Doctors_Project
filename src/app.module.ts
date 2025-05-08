@@ -15,6 +15,9 @@ import { ClinicModule } from './clinic/clinic.module';
 import { ClinicDepartmentModule } from './clinic-department/clinic-department.module';
 import { DoctorModule } from './doctor/doctor.module';
 import { StaffDetailsModule } from './staff-details/staff-details.module';
+import { PermissionsModule } from './permissions/permissions.module';
+import { UserPermissionsModule } from './user-permissions/user-permissions.module';
+import { MenusModule } from './menus/menus.module';
 
 
 
@@ -51,6 +54,12 @@ import { StaffDetailsModule } from './staff-details/staff-details.module';
     DoctorModule,
    
     StaffDetailsModule,
+   
+    PermissionsModule,
+   
+    UserPermissionsModule,
+   
+    MenusModule,
    
   ],
   controllers: [AppController],

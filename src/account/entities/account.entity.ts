@@ -7,6 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { DefaultStatus, UserRole ,AIType} from 'src/enum';
+import { UserPermission } from 'src/user-permissions/entities/user-permission.entity';
+import { StaffDetail } from 'src/staff-details/entities/staff-detail.entity';
 
 @Entity()
 export class Account {
@@ -42,4 +44,13 @@ export class Account {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+
+  @OneToMany(() => UserPermission, (userPermission) => userPermission.account)
+  userPermission: UserPermission[];
+
+  @OneToMany(() => StaffDetail, (staffDetail) => staffDetail.account)
+  staffDetail: StaffDetail[];
+
+
 }

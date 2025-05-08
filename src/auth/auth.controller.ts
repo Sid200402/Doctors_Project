@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import {  RegisterDto, } from './dto/register.dto';
-import { AdminSigninDto, OtpDto, SigninDto,  } from './dto/login.dto';
+import { AdminSigninDto, LoginDto, OtpDto, SigninDto,  } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -21,11 +21,25 @@ export class AuthController {
     return this.authService.sentOtp(dto);
   }
 
+  @Post('admin/login')
+  async adminlogin(@Body() dto: LoginDto) {
+    return this.authService.signIn(dto);
+  }
+  @Post('verify')
+  staffverifyOtp(@Body() dto: OtpDto) {    
+    return this.authService.staffverifyOtp(dto);
+  }
+  @Post('staff/login')
+  async stafflogin(@Body() dto: LoginDto) {
+    return this.authService.staffLogIn(dto);
+  }
+
+
  
-  // @Post('register')
-  // async register(@Body() registerDto: RegisterDto) {
-  //   return this.authService.register(registerDto);
-  // }
+  @Post('register')
+  async register(@Body() registerDto: RegisterDto) {
+    return this.authService.register(registerDto);
+  }
 
 
 
