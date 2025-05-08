@@ -11,6 +11,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CacheModule } from '@nestjs/cache-manager';
 import { PatientModule } from './patient/patient.module';
+import { ClinicModule } from './clinic/clinic.module';
+import { ClinicDepartmentModule } from './clinic-department/clinic-department.module';
+import { DoctorModule } from './doctor/doctor.module';
+import { StaffDetailsModule } from './staff-details/staff-details.module';
 
 
 
@@ -39,6 +43,14 @@ import { PatientModule } from './patient/patient.module';
     AuthModule,
    
     PatientModule,
+   
+    ClinicModule,
+   
+    ClinicDepartmentModule,
+   
+    DoctorModule,
+   
+    StaffDetailsModule,
    
   ],
   controllers: [AppController],
