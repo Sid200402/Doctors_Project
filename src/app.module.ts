@@ -38,8 +38,9 @@ import { PrescriptionTemplateModule } from './prescription-template/prescription
       username: process.env.DB_USER || 'root',
       password: process.env.DB_PASS || '',
       database: process.env.DB_NAME,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [__dirname + '/**/*.entity{.ts,.js}']
       synchronize: true,
+      
     }),
     CacheModule.register({
       isGlobal: true,
