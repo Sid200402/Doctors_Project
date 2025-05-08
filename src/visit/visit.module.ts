@@ -6,4 +6,4 @@ import { VisitController } from './visit.controller';
   controllers: [VisitController],
   providers: [VisitService],
 })
-export class VisitModule {}
+export class VisitModule { }

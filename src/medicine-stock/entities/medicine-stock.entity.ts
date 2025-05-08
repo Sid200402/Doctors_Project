@@ -12,7 +12,7 @@ export class MedicineStock  {
   medicine: Medicine;
 
   @Column({ type: 'uuid' })
-  medicineId: string; // Foreign key
+  medicineId: string; 
 
   @Column({ type: 'varchar', length: 255 })
   batchNumber: string;

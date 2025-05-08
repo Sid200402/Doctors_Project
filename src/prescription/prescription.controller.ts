@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, StreamableFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, StreamableFile, Query } from '@nestjs/common';
 import { PrescriptionService } from './prescription.service';
-import { CreatePrescriptionDto } from './dto/create-prescription.dto';
+import { CreatePrescriptionDto, PaginationDto } from './dto/create-prescription.dto';
 import { UpdatePrescriptionDto } from './dto/update-prescription.dto';
 import { Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
-import { EmailPrescriptionDto } from './dto/email-prescription.dto';
+
 
 @Controller('prescription')
 export class PrescriptionController {
@@ -17,18 +17,18 @@ export class PrescriptionController {
   }
 
   @Get()
-  findAll() {
-    return this.prescriptionService.findAll();
+  findAll(@Query() dto: PaginationDto) {
+    return this.prescriptionService.findAll(dto);
   }
 
   @Get('patient/:patientId')
-  findByPatient(@Param('patientId') patientId: string) {
-    return this.prescriptionService.findByPatient(patientId);
+  findByPatient(@Param('patientId') patientId: string,@Query() dto: PaginationDto) {
+    return this.prescriptionService.findByPatient(patientId, dto);
   }
 
   @Get('doctor/:doctorId')
-  findByDoctor(@Param('doctorId') doctorId: string) {
-    return this.prescriptionService.findByDoctor(doctorId);
+  findByDoctor(@Param('doctorId') doctorId: string,@Query() dto: PaginationDto) {
+    return this.prescriptionService.findByDoctor(doctorId, dto);
   }
 
   @Get(':id')
@@ -62,15 +62,12 @@ export class PrescriptionController {
   @Get(':id/download-pdf')
   async downloadPDF(@Param('id') id: string, @Res() res: Response) {
     const { filePath } = await this.prescriptionService.generatePDF(id);
-    
-    // Get the absolute path
+
     const absolutePath = path.join(process.cwd(), filePath);
-    
-    // Set headers for file download
+
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename="prescription.pdf"`);
-    
-    // Stream the file to the response
+
     const fileStream = fs.createReadStream(absolutePath);
     fileStream.pipe(res);
   }
@@ -78,21 +75,18 @@ export class PrescriptionController {
   @Get(':id/view-pdf')
   async viewPDF(@Param('id') id: string, @Res() res: Response) {
     const { filePath } = await this.prescriptionService.generatePDF(id);
-    
-    // Get the absolute path
+
+
     const absolutePath = path.join(process.cwd(), filePath);
-    
-    // Set headers for inline viewing
+
+
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'inline');
-    
-    // Stream the file to the response
+
+
     const fileStream = fs.createReadStream(absolutePath);
     fileStream.pipe(res);
   }
 
-  @Post('email')
-  async emailPrescription(@Body() emailDto: EmailPrescriptionDto) {
-    return this.prescriptionService.emailPrescription(emailDto);
-  }
+
 }

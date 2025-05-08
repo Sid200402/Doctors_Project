@@ -1,6 +1,6 @@
 import { IsEmail, IsEnum, IsInt, IsOptional, IsString, IsUUID, Min, IsDate } from 'class-validator';
-import { Gender } from '../../enum';
-import { BloodGroup, MaritalStatus } from '../entities/patient.entity';
+import { BloodGroup, Gender, MaritalStatus } from '../../enum';
+
 
 export class UpdatePatientDto {
   @IsOptional()

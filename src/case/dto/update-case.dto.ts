@@ -1,5 +1,6 @@
 import { IsOptional, IsString, IsUUID } from 'class-validator';
-import { CaseStatus } from '../entities/case.entity';
+import { CaseStatus } from '../../enum';
+
 
 export class UpdateCaseDto {
   @IsOptional()

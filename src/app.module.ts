@@ -20,7 +20,7 @@ import { PrescriptionModule } from './prescription/prescription.module';
 import { PrescribedMedicineModule } from './prescribed-medicine/prescribed-medicine.module';
 import { CaseModule } from './case/case.module';
 import { PrescriptionTemplateModule } from './prescription-template/prescription-template.module';
-import { AppointmentModule } from './appointment/appointment.module';
+
 
 @Module({
   imports: [
@@ -35,10 +35,10 @@ import { AppointmentModule } from './appointment/appointment.module';
       password: process.env.DB_PASS || '',
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize:true,
+      synchronize: true,
     }),
     CacheModule.register({
-      isGlobal:true,
+      isGlobal: true,
     }),
     AccountModule,
     AuthModule,
@@ -56,9 +56,8 @@ import { AppointmentModule } from './appointment/appointment.module';
     PrescribedMedicineModule,
     CaseModule,
     PrescriptionTemplateModule,
-    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

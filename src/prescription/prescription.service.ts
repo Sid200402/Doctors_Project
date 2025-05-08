@@ -286,7 +286,6 @@ export class PrescriptionService {
     const fileName = `prescription_${prescription.id}_${Date.now()}.pdf`;
     const filePath = path.join(uploadsDir, fileName);
 
-    // Ensure the directory exists
     if (!fs.existsSync(uploadsDir)) {
       fs.mkdirSync(uploadsDir, { recursive: true });
     }

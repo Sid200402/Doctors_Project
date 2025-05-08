@@ -27,10 +27,10 @@ export class AuthService {
     @InjectRepository(Account) private readonly repo: Repository<Account>,
     @InjectRepository(Patient) private readonly patientRepo: Repository<Patient>,
 
-  
+
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
-  
-  ) {}
+
+  ) { }
 
   async verifyOtp(dto: OtpDto) {
     const user = await this.getUserByPhoneNumber(dto.PhoneNumber);
@@ -51,12 +51,12 @@ export class AuthService {
   }
 
   async sentOtp(dto: SigninDto) {
-  //   const otp = Math.floor(1000 + Math.random() * 9000);
-    const otp=1234;
+    //   const otp = Math.floor(1000 + Math.random() * 9000);
+    const otp = 1234;
     this.cacheManager.set(dto.phoneNumber, otp, 600 * 1000);
-      // await this.nodeMailerService.sendOtpInEmail(dto.email, otp);
+    // await this.nodeMailerService.sendOtpInEmail(dto.email, otp);
     return {
-     
+
       phoneNumber: dto.phoneNumber,
       success: true,
       message: 'OTP sent succesfully',
@@ -66,7 +66,7 @@ export class AuthService {
   private getUserByPhoneNumber = async (
     phoneNumber: string,
   ): Promise<Account | null> => {
-   
+
     const result = await this.repo
       .createQueryBuilder('account')
       .where('account.PhoneNumber = :phoneNumber', { phoneNumber })
@@ -88,19 +88,18 @@ export class AuthService {
     const payload = this.repo.create({
       phoneNumber: Dto.PhoneNumber,
       email: Dto.email,
-     password:encryptedPassword,
+      password: encryptedPassword,
       roles: Dto.roles,
       status: DefaultStatus.ACTIVE,
-      
+
     });
     const savedAccount = await this.repo.save(payload);
     if (Dto.roles === UserRole.PATIENT) {
       const patientDetail = this.patientRepo.create({
-        email: Dto.email,
-       accountId: savedAccount.id,
+        accountId: savedAccount.id,
       });
       await this.patientRepo.save(patientDetail);
-    } 
+    }
     return savedAccount;
   }
 }

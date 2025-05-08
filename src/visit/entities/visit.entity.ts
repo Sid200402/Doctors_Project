@@ -29,7 +29,7 @@ export class Visit {
   @Column({ type: 'uuid' })
   doctorId: string;
 
-  @Column({ type: 'text',length:1000, nullable: true })
+  @Column({ type: 'text', nullable: true })
   notes?: string;
 
   @CreateDateColumn()
