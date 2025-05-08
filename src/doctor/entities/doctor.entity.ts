@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Clinic } from '../../clinic/entities/clinic.entity';
+import { Prescription } from '../../prescription/entities/prescription.entity';
 
 
 @Entity()
@@ -18,13 +19,13 @@ export class Doctor {
   clinic: Clinic;
 
   @Column({ type: 'uuid' })
-  clinicId: string; // Foreign key
+  clinicId: string;
 
 //   @OneToMany(() => Visit, (visit) => visit.doctor)
 //   visits: Visit[];
 
-//   @OneToMany(() => Prescription, (prescription) => prescription.doctor)
-//   prescriptions: Prescription[];
+@OneToMany(() => Prescription, (prescription) => prescription.doctor)
+prescriptions: Prescription[];
 
 //   @OneToMany(() => PrescriptionTemplate, (template) => template.doctor)
 //   prescriptionTemplates: PrescriptionTemplate[];
