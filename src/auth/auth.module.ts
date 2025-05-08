@@ -9,11 +9,15 @@ import { JwtStrategy } from 'src/auth/strategy/jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config';
 import { Patient } from 'src/patient/entities/patient.entity';
+import { CaslAbilityFactory } from './factory/casl-ability.factory';
+import { PermissionsGuard } from './guards/permissions.guard';
+import { UserPermission } from 'src/user-permissions/entities/user-permission.entity';
 @Module({
   imports:[
     TypeOrmModule.forFeature([
       Account,
      Patient,
+     UserPermission,
      
     ]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
@@ -31,12 +35,14 @@ import { Patient } from 'src/patient/entities/patient.entity';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService,JwtStrategy],
+  providers: [AuthService,JwtStrategy, CaslAbilityFactory, PermissionsGuard],
   exports: [
     AuthService,
     JwtStrategy,
     PassportModule,
     JwtModule,
+    CaslAbilityFactory,
+    PermissionsGuard,
   
   ],
 })

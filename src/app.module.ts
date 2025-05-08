@@ -11,6 +11,9 @@ import { ClinicModule } from './clinic/clinic.module';
 import { ClinicDepartmentModule } from './clinic-department/clinic-department.module';
 import { DoctorModule } from './doctor/doctor.module';
 import { StaffDetailsModule } from './staff-details/staff-details.module';
+import { PermissionsModule } from './permissions/permissions.module';
+import { UserPermissionsModule } from './user-permissions/user-permissions.module';
+import { MenusModule } from './menus/menus.module';
 import { MedicineModule } from './medicine/medicine.module';
 import { MedicineStockModule } from './medicine-stock/medicine-stock.module';
 import { MedicalHistoryModule } from './medical-history/medical-history.module';
@@ -20,6 +23,7 @@ import { PrescriptionModule } from './prescription/prescription.module';
 import { PrescribedMedicineModule } from './prescribed-medicine/prescribed-medicine.module';
 import { CaseModule } from './case/case.module';
 import { PrescriptionTemplateModule } from './prescription-template/prescription-template.module';
+
 
 
 @Module({
@@ -47,6 +51,14 @@ import { PrescriptionTemplateModule } from './prescription-template/prescription
     ClinicDepartmentModule,
     DoctorModule,
     StaffDetailsModule,
+
+    PermissionsModule,
+   
+    UserPermissionsModule,
+   
+    MenusModule,
+   
+
     MedicineModule,
     MedicineStockModule,
     MedicalHistoryModule,
@@ -56,6 +68,7 @@ import { PrescriptionTemplateModule } from './prescription-template/prescription
     PrescribedMedicineModule,
     CaseModule,
     PrescriptionTemplateModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],

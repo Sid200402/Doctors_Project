@@ -197,4 +197,5 @@ export class PatientController {
     const fileStream = fs.createReadStream(absolutePath);
     fileStream.pipe(res);
   }
+
 }
