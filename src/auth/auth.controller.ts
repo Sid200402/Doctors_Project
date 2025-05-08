@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import {  RegisterDto, } from './dto/register.dto';
-import { AdminSigninDto, OtpDto, SigninDto,  } from './dto/login.dto';
+import { AdminSigninDto, LoginDto, OtpDto, SigninDto,  } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -20,6 +20,12 @@ export class AuthController {
   sentOtp(@Body() dto: SigninDto) {
     return this.authService.sentOtp(dto);
   }
+
+  @Post('admin/login')
+  async adminlogin(@Body() dto: LoginDto) {
+    return this.authService.signIn(dto);
+  }
+
 
  
   // @Post('register')

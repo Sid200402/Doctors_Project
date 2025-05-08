@@ -15,7 +15,7 @@ import { JwtService } from '@nestjs/jwt';
 import { DefaultStatus, UserRole } from 'src/enum';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { OtpDto, SigninDto } from './dto/login.dto';
+import { LoginDto, OtpDto, SigninDto } from './dto/login.dto';
 import APIFeatures from 'src/utils/apiFeatures.utils';
 import { RegisterDto } from './dto/register.dto';
 import { Patient } from 'src/patient/entities/patient.entity';
@@ -33,7 +33,7 @@ export class AuthService {
   ) {}
 
   async verifyOtp(dto: OtpDto) {
-    const user = await this.getUserByPhoneNumber(dto.PhoneNumber);
+    const user = await this.getUserDetails(dto.PhoneNumber);
     if (!user) {
       throw new NotFoundException('User not found with this Phone Number!');
     }
@@ -48,6 +48,44 @@ export class AuthService {
     const token = await APIFeatures.assignJwtToken(user.id, this.jwtService);
     await this.cacheManager.del(dto.PhoneNumber);
     return { token, accountId: user.id };
+  }
+
+  async signIn(dto:LoginDto) {
+    const admin = await this.getUserDetails(dto.email, UserRole.ADMIN);
+
+    const isPasswordCorrect = await bcrypt.compare(dto.password, admin.password);
+    if (!isPasswordCorrect) {
+      throw new UnauthorizedException('Invalid credentials!');
+    }
+
+    const otp = 7832; // for demo
+    // const otp = Math.floor(1000 + Math.random() * 9000); // real OTP
+
+    await this.cacheManager.set(admin.phoneNumber, otp, 10 * 60 * 1000);
+    return { phoneNumber: admin.phoneNumber };
+  }
+
+
+  private getUserDetails= async (loginId: string,roles?: UserRole,): Promise<any> => {
+    const query = this.repo
+      .createQueryBuilder('account')
+      .select([
+        'account.id',
+         'account.email', 
+         'account.password',
+         'account.roles'
+        ]);
+        if (roles) {
+          query.andWhere('account.roles = :roles', { roles });
+        }
+    const result = await query
+      .andWhere('account.email = :loginId', { loginId })
+      .getOne();
+  
+    if (!result) {
+      throw new UnauthorizedException('Account not found!');
+    }
+    return result;
   }
 
   async sentOtp(dto: SigninDto) {
