@@ -1,5 +1,5 @@
 export enum UserRole {
-    
+
     DOCTOR = 'DOCTOR',
     ADMIN = 'ADMIN',
     PATIENT = 'PATIENT',
@@ -25,4 +25,29 @@ export enum UserRole {
   export enum AIType {
     ACTIVE = 'ACTIVE',
     INACTIVE = 'INACTIVE',
+  }
+  export enum BloodGroup {
+    A_POSITIVE = 'A+',
+    A_NEGATIVE = 'A-',
+    B_POSITIVE = 'B+',
+    B_NEGATIVE = 'B-',
+    AB_POSITIVE = 'AB+',
+    AB_NEGATIVE = 'AB-',
+    O_POSITIVE = 'O+',
+    O_NEGATIVE = 'O-',
+    UNKNOWN = 'Unknown'
+  }
+
+  export enum MaritalStatus {
+    SINGLE = 'Single',
+    MARRIED = 'Married',
+    DIVORCED = 'Divorced',
+    WIDOWED = 'Widowed',
+    OTHER = 'Other'
+  }
+  export enum CaseStatus {
+    NEW = 'NEW',
+    IN_CONSULTATION = 'IN_CONSULTATION',
+    TREATED = 'TREATED',
+    CLOSED = 'CLOSED',
   }
