@@ -1,12 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Prescription } from '../../prescription/entities/prescription.entity';
+import { Account } from 'src/account/entities/account.entity';
 
 
 @Entity()
 export class Doctor {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  
+
   @Column({ type: 'varchar', length: 100 })
   name: string;
 
@@ -24,6 +25,14 @@ export class Doctor {
 
   @Column({ type: 'text', nullable: true })
   profileimagePath: string;
+
+  @Column({ type: 'uuid', nullable: true })
+  accountId: string;
+
+
+  
+  @ManyToOne(() => Account, (account) => account.doctor)
+  account: Account;
 
 //   @OneToMany(() => Visit, (visit) => visit.doctor)
 //   visits: Visit[];
