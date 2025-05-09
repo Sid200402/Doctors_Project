@@ -7,7 +7,6 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
 import { PatientModule } from './patient/patient.module';
-import { ClinicModule } from './clinic/clinic.module';
 import { ClinicDepartmentModule } from './clinic-department/clinic-department.module';
 import { DoctorModule } from './doctor/doctor.module';
 import { StaffDetailsModule } from './staff-details/staff-details.module';
@@ -23,6 +22,7 @@ import { PrescriptionModule } from './prescription/prescription.module';
 import { PrescribedMedicineModule } from './prescribed-medicine/prescribed-medicine.module';
 import { CaseModule } from './case/case.module';
 import { PrescriptionTemplateModule } from './prescription-template/prescription-template.module';
+import { SettingModule } from './setting/setting.module';
 
 
 @Module({
@@ -47,7 +47,6 @@ import { PrescriptionTemplateModule } from './prescription-template/prescription
     AccountModule,
     AuthModule,
     PatientModule,
-    ClinicModule,
     ClinicDepartmentModule,
     DoctorModule,
     StaffDetailsModule,
@@ -68,6 +67,7 @@ import { PrescriptionTemplateModule } from './prescription-template/prescription
     PrescribedMedicineModule,
     CaseModule,
     PrescriptionTemplateModule,
+    SettingModule,
 
   ],
   controllers: [AppController],
