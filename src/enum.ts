@@ -1,38 +1,38 @@
 export enum UserRole {
 
 
-    DOCTOR = 'DOCTOR',
-    ADMIN = 'ADMIN',
-    PATIENT = 'PATIENT',
-    STAFF='STAFF',
-  }
-  export enum DefaultStatus {
-    ACTIVE = 'ACTIVE',
-    DEACTIVE = 'DEACTIVE',
-    DELETED = 'DELETED',
-    SUSPENDED = 'SUSPENDED',
-    PENDING = 'PENDING',
-  }
+  DOCTOR = 'DOCTOR',
+  ADMIN = 'ADMIN',
+  PATIENT = 'PATIENT',
+  STAFF = 'STAFF',
+}
+export enum DefaultStatus {
+  ACTIVE = 'ACTIVE',
+  DEACTIVE = 'DEACTIVE',
+  DELETED = 'DELETED',
+  SUSPENDED = 'SUSPENDED',
+  PENDING = 'PENDING',
+}
 
-  export enum Gender{
-    MALE = 'MALE',
-    FEMALE="FEMALE",
-    OTHER="OTHER"
-  }
+export enum Gender {
+  MALE = 'MALE',
+  FEMALE = "FEMALE",
+  OTHER = "OTHER"
+}
 
-  export enum AIType {
-    ACTIVE = 'ACTIVE',
-    INACTIVE = 'INACTIVE',
-  }
+export enum AIType {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+}
 
 
-  export enum PermissionAction {
-    CREATE = 'Create',
-    READ = 'Read',
-    UPDATE = 'Update',
-    DELETE = 'Delete',
-    MANAGE = "MANAGE",
-  }
+export enum PermissionAction {
+  CREATE = 'Create',
+  READ = 'Read',
+  UPDATE = 'Update',
+  DELETE = 'Delete',
+  MANAGE = "MANAGE",
+}
 
 export enum PageType {
   TNC = 'TERMS & CONDITIONS',
@@ -80,5 +80,34 @@ export enum AppointmentType {
   WALK_IN = 'WALK_IN',
   SCHEDULED = 'SCHEDULED',
 }
+export enum MedicineForm {
+  TABLET = 'TABLET',
+  CAPSULE = 'CAPSULE',
+  SYRUP = 'SYRUP',
+  INJECTION = 'INJECTION',
+  CREAM = 'CREAM',
+  OINTMENT = 'OINTMENT',
+  DROPS = 'DROPS',
+  INHALER = 'INHALER',
+  POWDER = 'POWDER',
+  SPRAY = 'SPRAY',
+  OTHER = 'OTHER',
+}
+
+export enum MedicineCategoryStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  DELETED = 'DELETED',
+}
+
+export enum StockStatus {
+  AVAILABLE = 'AVAILABLE',
+  LOW = 'LOW',
+  EXPIRED = 'EXPIRED',
+  OUT_OF_STOCK = 'OUT_OF_STOCK',
+}
+
+
+
 
 

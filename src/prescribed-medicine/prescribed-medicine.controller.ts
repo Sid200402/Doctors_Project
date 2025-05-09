@@ -7,4 +7,9 @@ import { CreatePrescribedMedicineDto } from './dto/create-prescribed-medicine.dt
 export class PrescribedMedicineController {
   constructor(private readonly prescribedMedicineService: PrescribedMedicineService) { }
 
+  @Post()
+  async create(@Body() dto: CreatePrescribedMedicineDto) {
+    return this.prescribedMedicineService.create(dto);
+  }
+
 }

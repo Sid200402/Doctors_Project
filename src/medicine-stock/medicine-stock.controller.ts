@@ -1,34 +1,47 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Put } from '@nestjs/common';
 import { MedicineStockService } from './medicine-stock.service';
-import { CreateMedicineStockDto } from './dto/create-medicine-stock.dto';
-import { UpdateMedicineStockDto } from './dto/update-medicine-stock.dto';
+
+import { PaginationDto } from '../medicine/dto/create-medicine.dto';
+import { DecreaseStockDto, MedicineStockDto, UpdateBatchVendorInfoDto, UpdateStockDto } from './dto/create-medicine-stock.dto';
 
 @Controller('medicine-stock')
 export class MedicineStockController {
   constructor(private readonly medicineStockService: MedicineStockService) {}
 
-  @Post()
-  create(@Body() createMedicineStockDto: CreateMedicineStockDto) {
-    return this.medicineStockService.create(createMedicineStockDto);
+
+  @Post('add')
+  async addStock(@Body() dto: MedicineStockDto) {
+    return this.medicineStockService.addStock(dto);
   }
 
-  @Get()
-  findAll() {
-    return this.medicineStockService.findAll();
+  @Get('expiry-alerts')
+  async checkExpiryAlerts() {
+    return this.medicineStockService.checkExpiryAlerts();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.medicineStockService.findOne(+id);
+  @Put('update-or-add/:stockId')
+  async updateOrAddStock(
+    @Param('stockId') stockId: string,
+    @Body() dto: UpdateStockDto,
+  ) {
+    dto.stockId = stockId;
+    return this.medicineStockService.updateOrAddStock(dto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMedicineStockDto: UpdateMedicineStockDto) {
-    return this.medicineStockService.update(+id, updateMedicineStockDto);
+  @Put('decrease/:stockId')
+  async decreaseStockQuantity(
+    @Param('stockId') stockId: string,
+    @Body()dto: DecreaseStockDto,
+  ) {
+    dto.stockId = stockId;
+    return this.medicineStockService.decreaseStockQuantity(dto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.medicineStockService.remove(+id);
+  @Put('update-batch-vendor/:stockId')
+  async updateBatchVendorInfo(
+    @Param('stockId') stockId: string,
+    @Body() dto:UpdateBatchVendorInfoDto) {
+      dto.stockId = stockId;
+    return this.medicineStockService.updateBatchVendorInfo(dto);
   }
 }
