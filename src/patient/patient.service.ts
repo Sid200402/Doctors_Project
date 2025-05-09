@@ -207,7 +207,10 @@ export class PatientService {
       .getMany();
   }
   async update(accountId: string, updatePatientDto: UpdatePatientDto) {
-    const patient = await this.findOne(accountId);
+    const patient = await this.patientRepository.findOne({where: { accountId }});
+    if (!patient) {
+      throw new NotFoundException(`Patient with account ID ${accountId} not found`);
+    }
 
     Object.assign(patient, updatePatientDto);
 

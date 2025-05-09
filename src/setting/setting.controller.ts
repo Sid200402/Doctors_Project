@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query, Us
 import { SettingService } from './setting.service';
 import { CreateSettingDto } from './dto/create-setting.dto';
 import { UpdateSettingDto } from './dto/update-setting.dto';
-import { Roles } from 'src/auth/decorator/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { UserRole } from 'src/enum';
@@ -10,6 +9,8 @@ import { CommonPaginationDto } from 'src/common/dto/common-pagination.dto';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Roles } from 'src/auth/decorator/roles.decorator';
+
 
 @Controller('setting')
 export class SettingController {
@@ -60,8 +61,8 @@ export class SettingController {
       }),
     )
     file: Express.Multer.File,
-  ) {   
-    const fileData = await this.settingService.findOne(id);    
+  ) {
+    const fileData = await this.settingService.findOne(id);
     return this.settingService.logo(file.path, fileData);
   }
 

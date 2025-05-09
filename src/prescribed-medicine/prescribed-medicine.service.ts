@@ -1,10 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { UpdatePrescribedMedicineDto } from './dto/update-prescribed-medicine.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { PrescribedMedicine } from './entities/prescribed-medicine.entity';
+import { Medicine } from '../medicine/entities/medicine.entity';
+import { Repository } from 'typeorm';
+import { MedicineService } from '../medicine/medicine.service';
+import { CreatePrescribedMedicineDto } from './dto/create-prescribed-medicine.dto';
 
 @Injectable()
 export class PrescribedMedicineService {
-  create() {
-    return 'This action adds a new prescribedMedicine';
+  constructor(
+    @InjectRepository(PrescribedMedicine)
+    private readonly prescribedMedicineRepository: Repository<PrescribedMedicine>,
+    private readonly medicineService: MedicineService,
+  ) {}
+
+  async create(dto: CreatePrescribedMedicineDto): Promise<PrescribedMedicine> {
+    const obj = Object.create(dto);
+    const savedPrescribedMedicine = await this.prescribedMedicineRepository.save(obj);
+
+    if (savedPrescribedMedicine.medicineId) {
+      await this.medicineService.incrementUsageFrequency(savedPrescribedMedicine.medicineId);
+    }
+
+    return savedPrescribedMedicine;
   }
 
   findAll() {
