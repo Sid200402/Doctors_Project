@@ -7,13 +7,21 @@ import {
   IsOptional,
   MaxLength,
 } from 'class-validator';
-import { UserRole } from 'src/enum';
+import { Gender, UserRole } from 'src/enum';
 
 export class RegisterDto {
   @IsNotEmpty()
   @MinLength(10)
   @MaxLength(10)
   PhoneNumber: string;
+
+  @IsOptional()
+  @IsString()
+  patientname: string;
+
+  @IsOptional()
+  @IsEnum(Gender, )
+  gender:Gender;
 
   @IsEmail()
   email: string;
