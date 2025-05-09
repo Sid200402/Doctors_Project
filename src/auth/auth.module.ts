@@ -12,12 +12,14 @@ import { Patient } from 'src/patient/entities/patient.entity';
 import { CaslAbilityFactory } from './factory/casl-ability.factory';
 import { PermissionsGuard } from './guards/permissions.guard';
 import { UserPermission } from 'src/user-permissions/entities/user-permission.entity';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
 @Module({
   imports:[
     TypeOrmModule.forFeature([
       Account,
      Patient,
      UserPermission,
+     Doctor
      
     ]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
