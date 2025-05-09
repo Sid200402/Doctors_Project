@@ -9,6 +9,7 @@ import {
 import { DefaultStatus, UserRole ,AIType} from 'src/enum';
 import { UserPermission } from 'src/user-permissions/entities/user-permission.entity';
 import { StaffDetail } from 'src/staff-details/entities/staff-detail.entity';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
 
 @Entity()
 export class Account {
@@ -45,6 +46,9 @@ export class Account {
   @UpdateDateColumn()
   updatedAt: Date;
 
+
+  @OneToMany(() => Doctor, (doctor) => doctor.account)
+  doctor: Doctor[];
 
   @OneToMany(() => UserPermission, (userPermission) => userPermission.account)
   userPermission: UserPermission[];

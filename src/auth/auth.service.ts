@@ -20,6 +20,8 @@ import APIFeatures from 'src/utils/apiFeatures.utils';
 import { RegisterDto } from './dto/register.dto';
 import { Patient } from 'src/patient/entities/patient.entity';
 import { UserPermission } from 'src/user-permissions/entities/user-permission.entity';
+import { CreateDoctorDto } from './dto/create-doctor.dto';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
 
 
 export class AuthService {
@@ -27,6 +29,7 @@ export class AuthService {
     private jwtService: JwtService,
     @InjectRepository(Account) private readonly repo: Repository<Account>,
     @InjectRepository(Patient) private readonly patientRepo: Repository<Patient>,
+    @InjectRepository(Doctor) private readonly doctorRepo: Repository<Doctor>,
 
 
     @InjectRepository(UserPermission)
@@ -104,6 +107,40 @@ export class AuthService {
     return { phoneNumber: staff.phoneNumber };
   }
 
+  async doctorverifyOtp(dto: OtpDto) {
+    const user = await this.getUserDetails(dto.PhoneNumber);
+    if (!user) {
+      throw new NotFoundException('User not found with this Phone Number!');
+    }
+
+    const sentOtp = await this.cacheManager.get(dto.PhoneNumber);
+    if (!sentOtp) {
+      throw new UnauthorizedException('OTP expired or not found!');
+    }
+    if (dto.otp !== sentOtp) {
+      throw new UnauthorizedException('Invalid OTP!');
+    }
+    const token = await APIFeatures.assignJwtToken(user.id, this.jwtService);
+    await this.cacheManager.del(dto.PhoneNumber);
+    return { token, accountId: user.id };
+  }
+
+  async doctorLogIn(dto: LoginDto) {
+    const doctor = await this.getUserDetails(dto.email, UserRole.DOCTOR);
+
+    const isPasswordCorrect = await bcrypt.compare(dto.password, doctor.password);
+
+    if (!isPasswordCorrect) {
+      throw new UnauthorizedException('Invalid credentials!');
+    }
+
+    const otp = 7832; // for demo
+    // const otp = Math.floor(1000 + Math.random() * 9000); // real OTP
+
+    await this.cacheManager.set(doctor.phoneNumber, otp, 10 * 60 * 1000);
+    return { phoneNumber: doctor.phoneNumber };
+  }
+
 
   private async getUserDetails(
     id: string,
@@ -138,6 +175,32 @@ export class AuthService {
 
     return user;
   }
+
+ async createDoctor(dto:CreateDoctorDto, createdBy: string) {
+    const user = await this.repo.findOne({
+      where: { email: dto.email, roles: UserRole.DOCTOR },
+    });
+    if (user) {
+      throw new ConflictException('Login id already exists!');
+    }
+    const encryptedPassword = await bcrypt.hash(dto.password, 10);
+    const obj = Object.assign({
+      phoneNumber:dto.phoneNumber,
+      email: dto.email,
+      password: encryptedPassword,
+      createdBy,
+      roles: UserRole.DOCTOR,
+    });
+    const payload = await this.repo.save(obj);
+    const object = Object.assign({
+      email: dto.email,
+      
+      accountId: payload.id,
+    });
+    await this.doctorRepo.save(object);
+    return payload;
+  }
+
 
 
 

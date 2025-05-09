@@ -1,13 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Ip } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Ip, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import {  RegisterDto, } from './dto/register.dto';
 import { AdminSigninDto, LoginDto, OtpDto, SigninDto,  } from './dto/login.dto';
+import { Roles } from './decorator/roles.decorator';
+import { AuthGuard } from '@nestjs/passport';
+import { UserRole } from 'src/enum';
+import { CurrentUser } from './decorator/current-user.decorator';
+import { Account } from 'src/account/entities/account.entity';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
+
+import { RolesGuard } from './guards/roles.guard';
+import { CreateDoctorDto } from './dto/create-doctor.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService,
+   ) 
+   {}
 
 
 
@@ -40,6 +51,26 @@ export class AuthController {
   async register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
   }
+
+  @Post('add-doctor')
+@UseGuards(AuthGuard('jwt'), RolesGuard)
+@Roles(UserRole.ADMIN)
+async addDoctor(
+  @Body() dto: CreateDoctorDto,
+  @CurrentUser() user: Account,
+): Promise<Doctor> {
+  return this.authService.createDoctor(dto, user.id);
+}
+
+@Post('doctor/verify')
+  doctorverifyOtp(@Body() dto: OtpDto) {    
+    return this.authService.doctorverifyOtp(dto);
+  }
+  @Post('Doctor/login')
+  async doctorlogin(@Body() dto: LoginDto) {
+    return this.authService.doctorLogIn(dto);
+  }
+
 
 
 

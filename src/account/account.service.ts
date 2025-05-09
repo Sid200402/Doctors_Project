@@ -22,7 +22,7 @@ export class AccountService {
  ){}
 
  async create(dto:CreateAccountDto, createdBy: string) {
-   console.log('dto', dto);
+   
     const user = await this.repo.findOne({
       where: { email: dto.email, roles: UserRole.STAFF },
     });

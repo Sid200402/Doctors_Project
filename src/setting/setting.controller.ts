@@ -9,7 +9,8 @@ import { CommonPaginationDto } from 'src/common/dto/common-pagination.dto';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Roles } from '../auth/decorator/roles.decorator';
+import { Roles } from 'src/auth/decorator/roles.decorator';
+
 
 @Controller('setting')
 export class SettingController {
