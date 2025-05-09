@@ -26,7 +26,9 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     @InjectRepository(Account) private readonly repo: Repository<Account>,
-    @InjectRepository(Patient) private readonly patientRepo: Repository<Patient>
+    @InjectRepository(Patient) private readonly patientRepo: Repository<Patient>,
+
+
     @InjectRepository(UserPermission)
     private readonly upRepo: Repository<UserPermission>,
 
@@ -52,11 +54,11 @@ export class AuthService {
     return { token, accountId: user.id };
   }
 
-  async signIn(dto:LoginDto) {
+  async signIn(dto: LoginDto) {
     const admin = await this.getUserDetails(dto.email, UserRole.ADMIN);
 
     const isPasswordCorrect = await bcrypt.compare(dto.password, admin.password);
-    
+
     if (!isPasswordCorrect) {
       throw new UnauthorizedException('Invalid credentials!');
     }
@@ -86,11 +88,11 @@ export class AuthService {
     return { token, accountId: user.id };
   }
 
-  async staffLogIn(dto:LoginDto) {
+  async staffLogIn(dto: LoginDto) {
     const staff = await this.getUserDetails(dto.email, UserRole.STAFF);
 
-    const isPasswordCorrect = await bcrypt.compare(dto.password,staff.password);
-    
+    const isPasswordCorrect = await bcrypt.compare(dto.password, staff.password);
+
     if (!isPasswordCorrect) {
       throw new UnauthorizedException('Invalid credentials!');
     }
@@ -109,7 +111,7 @@ export class AuthService {
   ): Promise<Account> {
     const query = this.repo
       .createQueryBuilder('account')
-    
+
       .select([
         'account.id',
         'account.email',
@@ -117,7 +119,7 @@ export class AuthService {
         'account.phoneNumber',
         'account.roles',
         'account.status',
-        
+
       ])
       .where('account.email = :id OR account.phoneNumber = :phoneNumber', {
         id,
@@ -138,9 +140,9 @@ export class AuthService {
   }
 
 
- 
 
-  
+
+
   async sentOtp(dto: SigninDto) {
     //   const otp = Math.floor(1000 + Math.random() * 9000);
     const otp = 1234;
